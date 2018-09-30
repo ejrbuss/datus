@@ -1,0 +1,30 @@
+{
+  "name": "datus",
+  "version": "1.0.0",
+  "description": "A library of tools meant to assist with data mining and simple machine learning algorithms.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejrbuss/datus.git"
+  },
+  "author": "Eric Buss (ejrbuss@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ejrbuss/datus/issues"
+  },
+  "homepage": "https://github.com/ejrbuss/datus#readme",
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.11.0",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.1",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.116",
+    "lodash": "^4.17.11"
+  }
+}
