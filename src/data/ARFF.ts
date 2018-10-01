@@ -39,6 +39,8 @@ const parseFile = (path: string): Relation =>
     parse(readFileSync(path, 'utf8'));
 
 export const ARFF = {
+    clean,
+    maybeNumber,
     parseFile,
     parse,
 };

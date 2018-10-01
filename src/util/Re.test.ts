@@ -8,3 +8,9 @@ test('Re.findAll', () => {
         { substring: 'a', groups: [3, 'aaaa'] },
     ])
 });
+
+test('Re.findFirst', () => {
+    expect(Re.findFirst(/a./g, 'bbbaaacad')).toMatchObject({
+        substring: 'aa', groups: [3, 'bbbaaacad'],
+    });
+});

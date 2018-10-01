@@ -1,0 +1,1 @@
+import { Bayes } from './Bayes';

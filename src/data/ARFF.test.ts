@@ -1,5 +1,14 @@
 import { ARFF } from './ARFF';
 
+test('ARFF.clean', () => {
+    expect(ARFF.clean('Hello%World\nWorld!')).toEqual('Hello\nWorld!');
+});
+
+test('ARFF.maybeNumber', () => {
+    expect(ARFF.maybeNumber('4')).toEqual(4);
+    expect(ARFF.maybeNumber('test')).toEqual('test');
+});
+
 test('ARFF.parseFile', () => {
     expect(ARFF.parseFile('./data/weather.nominal.arff')).toMatchObject({ 
         relation: 'weather.symbolic',

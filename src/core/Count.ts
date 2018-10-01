@@ -1,21 +1,20 @@
 import { Maths } from './Maths';
-import { mapValues } from 'lodash';
 
-export type Count = { [attrVal: string]: number };
+export type Count = number[];
 
-const make = (...ns: number[]): Count =>
-    ns.reduce((c: Count, n, i) => ({ ...c, [i]: n }), {});
-
-const total = (c: Count | Count[]): number =>
-    Array.isArray(c)
-        ? Maths.sum(c.map(total))
-        : Maths.sum(Object.values(c));
+const total = (...cs: Count[]): number =>
+    Maths.sum(...cs.map(c => Maths.sum(...c)));
 
 const probability = (c: Count) =>
-    mapValues(c, n => n / Count.total(c));
+    c.map(n => n / Count.total(c));
+
+const info = (...cs: Count[]) =>
+    Maths.sum(...cs.map(c => 
+        Maths.entropy(...Count.probability(c)) * Count.total(c) / Count.total(...cs)
+    ));
 
 export const Count = {
-    make,
-    probability,
     total,
+    probability,
+    info,
 };
