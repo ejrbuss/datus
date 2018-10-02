@@ -26,9 +26,9 @@ const odds = (ds: DocumentSet, clss: string[] = Document.classes(ds)): Multinomi
     }), {}),
 });
 
-const classify = (d: Document, odds: MultinomialOdds): string => {
+const classify = (d: Document, odds: MultinomialOdds, p: number = 1): string => {
     const ps = odds.clss.map(cls => 
-        Maths.log(odds.priors[cls]) + Maths.sum(...Array.from(Document.vocab(d.str)).map(term =>
+        Maths.log(odds.priors[cls] ** p) + Maths.sum(...Array.from(Document.vocab(d.str)).map(term =>
             Maths.nanz(Maths.log(odds.conds[cls][term]), 0)
         )),
     );

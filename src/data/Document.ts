@@ -63,7 +63,7 @@ const where = (ds: DocumentSet, condition: ((dcoument: Document) => boolean) | s
 const count = (ds: DocumentSet, term?: string): number =>
     term
         ? Maths.sum(...ds.docs.map(d => d.hist[term]))
-        : Maths.sum(...ds.docs.map(d => d.str.split(/\s/g).length));
+        : Maths.sum(...ds.docs.map(d => d.str.trim().split(/\s/g).length));
 
 const clsProbability = (ds: DocumentSet, cls: string): number =>
     Document.where(ds, cls).docs.length / ds.docs.length;

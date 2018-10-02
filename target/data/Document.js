@@ -30,7 +30,7 @@ const where = (ds, condition) => typeof condition === 'function'
     : exports.Document.where(ds, d => d.cls === condition);
 const count = (ds, term) => term
     ? Maths_1.Maths.sum(...ds.docs.map(d => d.hist[term]))
-    : Maths_1.Maths.sum(...ds.docs.map(d => d.str.split(/\s/g).length));
+    : Maths_1.Maths.sum(...ds.docs.map(d => d.str.trim().split(/\s/g).length));
 const clsProbability = (ds, cls) => exports.Document.where(ds, cls).docs.length / ds.docs.length;
 const termProbability = (ds, term) => (exports.Document.count(ds, term) + 1) /
     (exports.Document.count(ds) + ds.vocab.size);

@@ -17,8 +17,10 @@ const training = Document_1.Document.parseFile(trainingPath.data, trainingPath.l
 const trainingLabels = Document_1.Document.parselabelsFile(trainingPath.labels);
 const testing = Document_1.Document.parseFile(testingPath.data, testingPath.labels);
 const testingLabels = Document_1.Document.parselabelsFile(testingPath.labels);
-const odds = Multinomial_1.Multinomial.odds(training);
-const guess = (ds) => ds.docs.map(d => Multinomial_1.Multinomial.classify(d, odds));
+const stopWords = new Set(['a', 'an', 'the', 'and', 'but', 'to']);
+const tuning = 10;
+const odds = Multinomial_1.Multinomial.stop(Multinomial_1.Multinomial.odds(training), stopWords);
+const guess = (ds) => ds.docs.map(d => Multinomial_1.Multinomial.classify(d, odds, tuning));
 const results = (ds, labels) => {
     const guessed = guess(ds);
     const correct = Maths_1.Maths.sum(...guessed.map((g, i) => g === labels[i] ? 1 : 0));

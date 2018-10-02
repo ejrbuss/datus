@@ -18,10 +18,13 @@ const trainingLabels = Document.parselabelsFile(trainingPath.labels);
 const testing        = Document.parseFile(testingPath.data, testingPath.labels);
 const testingLabels  = Document.parselabelsFile(testingPath.labels);
 
-const odds = Multinomial.odds(training);
+const stopWords = new Set([ 'a', 'an', 'the', 'and', 'but', 'to' ]);
+const tuning    = 10;
+
+const odds = Multinomial.stop(Multinomial.odds(training), stopWords);
 
 const guess = (ds: DocumentSet): string[] =>
-    ds.docs.map(d => Multinomial.classify(d, odds));
+    ds.docs.map(d => Multinomial.classify(d, odds, tuning));
 
 const results = (ds: DocumentSet, labels: string[]): [number, number] => {
     const guessed = guess(ds);
@@ -31,7 +34,8 @@ const results = (ds: DocumentSet, labels: string[]): [number, number] => {
 
 const percent = ([n, d]: [number, number]) =>
     (n / d * 100).toFixed(2);
-const fraction = ([n, d]: [number, number]) =>
+
+const fraction = ([n, d]: [number, number]) => 
     `${n} / ${d}`
 
 const trainResults = results(training, trainingLabels);
