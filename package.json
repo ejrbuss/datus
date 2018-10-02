@@ -4,7 +4,8 @@
   "description": "A library of tools meant to assist with data mining and simple machine learning algorithms.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node ./target/examples/fortune-cookies",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -19,12 +20,10 @@
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
+    "@types/lodash": "^4.14.116",
+    "lodash": "^4.17.11",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.1",
     "typescript": "^3.0.3"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.14.116",
-    "lodash": "^4.17.11"
   }
 }

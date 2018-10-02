@@ -2,13 +2,17 @@ import { Row, Relation } from '../data/relation';
 import { DecisionTree, Decision } from './DecisionTree';
 import { Maths } from '../core/Maths';
 
-const numerator = (r: Relation, pred: Partial<Row>, given: Partial<Row>): number =>
-    Maths.sum(...Object.keys(given).map(attr => Relation.probability(r, { [attr]: given[attr] }, pred)));
+const numerator = (r: Relation, pred: Partial<Row>, given: Partial<Row>, laplace: boolean): number =>
+    Relation.probability(r, pred) * 
+        Maths.mul(...Object.keys(given).map(attr => laplace
+            ? Relation.laplaceProbability(r, { [attr]: given[attr] }, pred)
+            : Relation.probability(r, { [attr]: given[attr] }, pred)
+        ));
 
-const decision = (r: Relation, e: Partial<Row>, cls: string): DecisionTree => {
+const tree = (r: Relation, e: Partial<Row>, cls: string, laplace: boolean = true): DecisionTree => {
     const clss = Relation.classes(r, cls);
-    const ns = clss.map(clsVal => Bayes.numerator(r, { [cls]: clsVal }, e));
-    const ps = Maths.normalize(ns);
+    const ns = clss.map(clsVal => Bayes.numerator(r, { [cls]: clsVal }, e, laplace));
+    const ps = Maths.pnormalize(ns);
     return {
         attr: cls,
         children: clss.reduce((d: DecisionTree['children'], clsVal, i) => {
@@ -20,5 +24,5 @@ const decision = (r: Relation, e: Partial<Row>, cls: string): DecisionTree => {
 
 export const Bayes = {
     numerator,
-    decision,
+    tree,
 };

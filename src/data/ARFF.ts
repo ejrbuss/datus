@@ -17,13 +17,13 @@ const maybeNumber = (str: string) =>
     reNumber.test(str) ? parseFloat(str) : str.trim();
 
 const parse = (str: string): Relation => {
-    str = clean(str);
+    str = ARFF.clean(str);
     const relation = Re.findFirstGroup(reRelation, str);
     const attrs    = Re.findAllGroup(reAttribute, str);
     const rows     = chunk(Re
         .findFirstGroup(reData, str)
         .split(reSplit)
-        .map(maybeNumber),
+        .map(ARFF.maybeNumber),
         attrs.length
     ).map(values =>
         attrs.reduce((row: Row, attr, i) => {
@@ -36,7 +36,7 @@ const parse = (str: string): Relation => {
 };
 
 const parseFile = (path: string): Relation =>
-    parse(readFileSync(path, 'utf8'));
+    ARFF.parse(readFileSync(path, 'utf8'));
 
 export const ARFF = {
     clean,

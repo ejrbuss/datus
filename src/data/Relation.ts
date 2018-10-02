@@ -1,5 +1,6 @@
 import { uniq, sortBy } from 'lodash';
 import { Count } from '../core/Count';
+import { Maths } from '../core/Maths';
 
 export type Value = string | number;
 
@@ -22,7 +23,7 @@ const withoutAttr = (r: Relation, ...attrs: string[]): Relation =>
 
 const where = (r: Relation, condition: ((row: Row) => boolean) | Partial<Row>): Relation =>
     typeof condition === 'function'
-        ? copy(r, { rows: r.rows.filter(condition) })
+        ? Relation.copy(r, { rows: r.rows.filter(condition) })
         : Relation.where(r, row => Object.keys(condition).every(attr => row[attr] === condition[attr]));
 
 const classes = (r: Relation, attr: string): Value[] =>
@@ -45,9 +46,15 @@ const entropies = (r: Relation, cls: string): number[] =>
 
 const probability = (r: Relation, pred: Partial<Row>, given?: Partial<Row>): number =>
     given
-        ? probability(Relation.where(r, given), pred)
+        ? Relation.probability(Relation.where(r, given), pred)
         : Relation.where(r, pred).rows.length / 
             r.rows.length;
+
+const laplaceProbability = (r: Relation, pred: Partial<Row>, given?: Partial<Row>): number =>
+    given
+        ? Relation.laplaceProbability(Relation.where(r, given), pred)
+        : (Relation.where(r, pred).rows.length + 1) / 
+            (r.rows.length + Maths.sum(...Object.keys(pred).map(attr => Relation.classes(r, attr).length)));
 
 const orderedByOccurence = (r: Relation, attr: string): Value[] =>
     sortBy(Relation.classes(r, attr), attrVal => -Relation.countClasses(r, attr)[attrVal]);
@@ -62,6 +69,7 @@ export const Relation = {
     counts,
     entropies,
     probability,
+    laplaceProbability,
     orderedByOccurence,
 };
 

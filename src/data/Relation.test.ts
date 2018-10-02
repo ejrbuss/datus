@@ -71,6 +71,14 @@ test('Relation.probability', () => {
     expect(Relation.probability(weather, { play: 'yes' })).toEqual(9 / 14);
 });
 
+test('Relation.laplaceProbability', () => {
+    expect(Relation.laplaceProbability(weather, { outlook: 'sunny'}, { play: 'yes' })).toEqual(3 / 12);
+    expect(Relation.laplaceProbability(weather, { temperature: 'cool'}, { play: 'yes' })).toEqual(4 / 12);
+    expect(Relation.laplaceProbability(weather, { humidity: 'high'}, { play: 'yes' })).toEqual(4 / 11);
+    expect(Relation.laplaceProbability(weather, { windy: 'TRUE'}, { play: 'yes' })).toEqual(4 / 11);
+    expect(Relation.laplaceProbability(weather, { play: 'yes' })).toEqual(10 / 16);
+});
+
 test('Relation.orderByOccurence', () => {
     expect(Relation.orderedByOccurence(weather, 'play')).toMatchObject([
         'yes', 'no'

@@ -16,6 +16,11 @@ test('Maths.sum', () => {
     expect(Maths.sum(1, 2, 3, 4)).toEqual(10);
 });
 
+test('Maths.mul', () => {
+    expect(Maths.mul()).toEqual(1);
+    expect(Maths.mul(1, 2, 3, 4)).toEqual(24);
+});
+
 test('Maths.entropy', () => {
     expect(Maths.entropy(0, 1)).toEqual(0);
     expect(Maths.entropy(.5, .5)).toEqual(1);
@@ -32,4 +37,8 @@ test('Maths.magnitude', () => {
 
 test('Maths.normalize', () => {
     expect(Maths.normalize([42, 0, 0])).toMatchObject([1, 0, 0]);
+});
+
+test('Maths.pnormalize', () => {
+    expect(Maths.pnormalize([1, 1, 2, 4])).toMatchObject([1 / 8, 1 / 8, 2 / 8, 4 / 8]);
 });
