@@ -15,10 +15,9 @@ const tree = (r: Relation, e: Partial<Row>, cls: string, laplace: boolean = true
     const ps = Maths.pnormalize(ns);
     return {
         attr: cls,
-        children: clss.reduce((d: DecisionTree['children'], clsVal, i) => {
-            d[clsVal] = { clsVal: clsVal, probability: ps[i] }
-            return d;
-        }, {}),
+        children: clss.reduce((d: DecisionTree['children'], clsVal, i) => ({
+            ...d, [clsVal]: { clsVal: clsVal, probability: ps[i] }
+        }), {})
     };
 };
 

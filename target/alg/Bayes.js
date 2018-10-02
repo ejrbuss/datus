@@ -12,10 +12,7 @@ const tree = (r, e, cls, laplace = true) => {
     const ps = Maths_1.Maths.pnormalize(ns);
     return {
         attr: cls,
-        children: clss.reduce((d, clsVal, i) => {
-            d[clsVal] = { clsVal: clsVal, probability: ps[i] };
-            return d;
-        }, {}),
+        children: clss.reduce((d, clsVal, i) => (Object.assign({}, d, { [clsVal]: { clsVal: clsVal, probability: ps[i] } })), {})
     };
 };
 exports.Bayes = {
