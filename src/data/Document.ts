@@ -22,10 +22,10 @@ const copy = (ds: DocumentSet, partial: Partial<DocumentSet>): DocumentSet => ({
 });
 
 const vocab = (str: string): Vocab =>
-    str.split(/\s/g).reduce((set: Vocab, substr) => set.add(substr), new Set());
+    str.split(/\s/g).reduce((set: Vocab, substr) => set.add(substr), new Set<string>());
 
 const classes = (ds: DocumentSet): string[] =>
-    Array.from(ds.docs.reduce((s: Set<string>, d) => d.cls ? s.add(d.cls): s, new Set()));
+    Array.from(ds.docs.reduce((s: Set<string>, d) => d.cls ? s.add(d.cls): s, new Set<string>()));
 
 const parseDocument = (str: string, language: Vocab): Document => ({
     str, hist: Array.from(language).reduce((hist: Histogram, term) => {
